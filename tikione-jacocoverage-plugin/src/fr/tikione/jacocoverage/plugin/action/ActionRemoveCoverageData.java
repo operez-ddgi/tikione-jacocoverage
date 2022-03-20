@@ -61,7 +61,7 @@ public abstract class ActionRemoveCoverageData
         new RequestProcessor("JaCoCoverage Cleanup Task", 3, true).post(new Runnable() {
             @Override
             public void run() {
-                ProgressHandle progr = ProgressHandleFactory.createHandle("JaCoCoverage Cleanup Task");
+                ProgressHandle progr = ProgressHandle.createHandle("JaCoCoverage Cleanup Task");
                 if (project == null) {
                     LOGGER.warning("Cannot find project to clear coverage data");
                 } else {

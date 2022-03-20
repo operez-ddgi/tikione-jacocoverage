@@ -34,3 +34,6 @@ tikione-jacocoexec-analyzer/nbproject/private/private.xml
 tikione-jacocoverage-plugin/nbproject/private/jonathanlermitage.cert
 tikione-jacocoverage-plugin/nbproject/private/platform-private.properties
 tikione-jacocoverage-plugin/nbproject/private/private.xml
+/nbproject/private/
+/tikione-jacocoexec-analyzer/nbproject/private/
+/tikione-jacocoverage-plugin/nbproject/private/
