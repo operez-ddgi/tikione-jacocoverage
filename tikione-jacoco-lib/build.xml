@@ -5,4 +5,33 @@
 <project name="fr.tikione.jacoco.lib" default="netbeans" basedir=".">
     <description>Builds, tests, and runs the project fr.tikione.jacoco.lib.</description>
     <import file="nbproject/build-impl.xml"/>
+    <property name="binaries.repos" value="https://repo1.maven.org/maven2/"/>
+    <property name="binaries.cache" location="${user.home}/.hgexternalcache"/>
+    <property name="tasks.jar" location="${harness.dir}/tasks.jar"/>
+
+    <taskdef name="downloadbinaries" classname="org.netbeans.nbbuild.extlibs.DownloadBinaries" classpath="${tasks.jar}"/>
+    <taskdef name="configureproxy" classname="org.netbeans.nbbuild.extlibs.ConfigureProxy" classpath="${tasks.jar}"/>
+
+    <target name="-pre-release" depends="download">
+        <mkdir dir="${basedir}/release/modules/ext"/>
+        <copy todir="${basedir}/release/modules/ext">
+            <fileset dir="${basedir}/external">
+                <include name="*.report*.jar"/>
+                <include name="*.core*.jar"/>
+            </fileset>
+            <regexpmapper from="^(.*)-.*.jar$$" to="\1.jar"/>
+        </copy>
+        <unzip dest="${basedir}/release/modules/ext" src="${basedir}/external/org.jacoco.agent-0.8.7.jar">
+            <patternset>
+                <include name="jacocoagent.jar"/>
+            </patternset>
+        </unzip>
+    </target>
+    <target name="download">
+        <downloadbinaries cache="${binaries.cache}" repos="${binaries.repos}">
+            <manifest dir="${basedir}">
+                <include name="external/binaries-list"/>
+            </manifest>
+        </downloadbinaries>
+    </target>    
 </project>
