@@ -25,7 +25,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.tools.ant.module.api.AntProjectCookie;
 import org.apache.tools.ant.module.api.AntTargetExecutor;
 import org.netbeans.api.progress.ProgressHandle;
-import org.netbeans.api.progress.ProgressHandleFactory;
 import org.netbeans.api.project.Project;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -86,7 +85,7 @@ public abstract class ActionJacocoOnAntTaskJ2SE
 			}
 		});
 	}
-
+        
 	/**
 	 * Run an Ant task with a JaCoCo Java Agent, collect and display coverage data.
 	 *
@@ -123,39 +122,44 @@ public abstract class ActionJacocoOnAntTaskJ2SE
 				// Apply JaCoCo JavaAgent customization.
 				final String antTaskJavaagentParam;
 				List<String> excludeList = cfg.getPkgclssExclude();
-				StringBuilder exclude = new StringBuilder((excludeList.size() + 1) * 20);
-				if (cfg.isOverrideGlobals() && !excludeList.isEmpty()) {
+				StringBuilder includeExclude = new StringBuilder();
+				final boolean isNBModule = Utils.isProjectSupported(NBUtils.getSelectedProject(), NBProjectTypeEnum.NBMODULE);
+                                String excludes = isNBModule ? prjProps.getProperty("jacoco.excludes") : null;
+                                if (excludes == null) {
+                                    excludes = "";
+                                } else {
+                                    excludes = excludes.trim();
+                                }
+                                
+                                StringBuilder exclude = new StringBuilder((excludeList.size() + 1) * 20);
+                                String packagesToTest = NBUtils.getProjectJavaPackagesAsStr(project, prjProps, ":", ".*");
+                                if (cfg.isOverrideGlobals() && !excludeList.isEmpty()) {
 					exclude.append(",excludes=");
 					boolean first = true;
 					for (String pkg : excludeList) {
 						if (!first) {
 							exclude.append(':');
-						}
+                                                }
 						exclude.append(pkg).append(".*");
 						first = false;
 					}
-				}
-
+                                        if (!excludes.isEmpty()) {
+                                            exclude.append(":").append(excludes);
+                                        }
+				} else if (!excludes.isEmpty()) {
+                                    exclude.append(",excludes=").append(excludes);
+                                }
+                                
 				// GWI patch: If NetBeans Module Project - use different JavaAgent settings
-				final boolean isNBModule = Utils.isProjectSupported(NBUtils.getSelectedProject(), NBProjectTypeEnum.NBMODULE);
 				String jacocoAgentJarAbsPath = NBUtils.getJacocoAgentJar().getAbsolutePath();
+                                
+                                if (packagesToTest.length() > 1000) { // GitHub#26: JaCoCo seems to fail if the includes list is too long
+                                        packagesToTest = "*";
+                                }
+                                antTaskJavaagentParam = "\"" + jacocoAgentJarAbsPath
+                                                + "\"=includes=" + packagesToTest
+                                                + ",destfile=\"" + binreport.getAbsolutePath() + "\"" + includeExclude.toString();
 				
-				
-				
-				if (isNBModule) {
-					String excludes = prjProps.getProperty("jacoco.excludes");
-					antTaskJavaagentParam = "\"" + jacocoAgentJarAbsPath
-							+ "\"=destfile=\"" + binreport.getAbsolutePath() + "\"" + (excludes == null ? "" : ",excludes=" + excludes);
-				} else {
-					String packagesToTest = NBUtils.getProjectJavaPackagesAsStr(project, prjProps, ":", ".*");
-					if (packagesToTest.length() > 1000) { // GitHub#26: JaCoCo seems to fail if the includes list is too long
-						packagesToTest = "*";
-					}
-					antTaskJavaagentParam = "\"" + jacocoAgentJarAbsPath
-							+ "\"=includes=" + packagesToTest
-							+ ",destfile=\"" + binreport.getAbsolutePath() + "\"" + exclude.toString();
-				}
-
 				FileObject scriptToExecute = project.getProjectDirectory().getFileObject("build", "xml");
 				if (scriptToExecute == null) { // Fix for GitHub #16.
 					scriptToExecute = project.getProjectDirectory().getFileObject("nbbuild", "xml");
@@ -196,7 +200,7 @@ public abstract class ActionJacocoOnAntTaskJ2SE
 				new RequestProcessor("JaCoCoverage Collection Task", 3, true).post(new Runnable() {
 					@Override
 					public void run() {
-						ProgressHandle progr = ProgressHandleFactory.createHandle("JaCoCoverage Collection Task");
+						ProgressHandle progr = ProgressHandle.createHandle("JaCoCoverage Collection Task");
 						try {
 							progr.setInitialDelay(400);
 							progr.start();
