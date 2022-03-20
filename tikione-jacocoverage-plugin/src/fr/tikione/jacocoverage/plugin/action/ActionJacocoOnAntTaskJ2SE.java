@@ -52,6 +52,8 @@ public abstract class ActionJacocoOnAntTaskJ2SE
 		implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
+        
+        private static final int MAX_INCLUDE_LENGTH = Integer.getInteger("fr.tikione.jacocoverage.plugin.action.MaxIncludeLengh", 8192); // NOI18N
 
 	private static final Logger LOGGER = Logger.getLogger(ActionJacocoOnAntTaskJ2SE.class.getName());
 
@@ -153,7 +155,7 @@ public abstract class ActionJacocoOnAntTaskJ2SE
 				// GWI patch: If NetBeans Module Project - use different JavaAgent settings
 				String jacocoAgentJarAbsPath = NBUtils.getJacocoAgentJar().getAbsolutePath();
                                 
-                                if (packagesToTest.length() > 1000) { // GitHub#26: JaCoCo seems to fail if the includes list is too long
+                                if (packagesToTest.length() > MAX_INCLUDE_LENGTH) { // GitHub#26: JaCoCo seems to fail if the includes list is too long
                                         packagesToTest = "*";
                                 }
                                 antTaskJavaagentParam = "\"" + jacocoAgentJarAbsPath
