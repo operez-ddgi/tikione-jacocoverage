@@ -12,7 +12,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>0.6.2</specification-version>
+                        <specification-version>0.8.7</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -21,16 +21,23 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.0.0</specification-version>
+                        <specification-version>1.6.0</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>fr.tikione.jacocoverage.ext</code-name-base>
+                    <code-name-base>org.apache.commons.io</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <release-version>1</release-version>
-                        <specification-version>1.0.0.20130528.1200</specification-version>
+                        <specification-version>2.6.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.apache.commons.lang3</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>3.8.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -66,15 +73,16 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.32.1</specification-version>
+                        <specification-version>1.40</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.netbeans.api.progress.nb</code-name-base>
+                    <code-name-base>org.netbeans.libs.jackson</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>1.46.1</specification-version>
+                        <release-version>2</release-version>
+                        <specification-version>2.12.0</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -83,6 +91,15 @@
                     <compile-dependency/>
                     <run-dependency>
                         <specification-version>1.14</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.netbeans.modules.java.project</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>1.87</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -109,7 +126,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>1.65.1.8</specification-version>
+                        <specification-version>1.78</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -118,14 +135,6 @@
                     <compile-dependency/>
                     <run-dependency>
                         <specification-version>7.55.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.openide.compat</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>6.44.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -149,15 +158,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>8.5.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.openide.filesystems.compat8</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>9.13.1</specification-version>
+                        <specification-version>9.0</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -173,7 +174,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.44.2</specification-version>
+                        <specification-version>7.61</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -181,7 +182,7 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <specification-version>7.35.1</specification-version>
+                        <specification-version>7.63</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -253,10 +254,6 @@
                 <package>fr.tikione.jacocoverage.plugin.config</package>
                 <package>fr.tikione.jacocoverage.plugin.util</package>
             </public-packages>
-            <class-path-extension>
-                <runtime-relative-path>ext/org-netbeans-modules-java-source-compat8.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/org-netbeans-modules-java-source-compat8.jar</binary-origin>
-            </class-path-extension>
         </data>
     </configuration>
 </project>

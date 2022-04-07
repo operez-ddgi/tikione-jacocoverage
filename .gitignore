@@ -5,7 +5,7 @@
 /tikione-jacocoexec-analyzer/build/
 /tikione-jacocoverage-ext/build/
 /tikione-jacocoverage-ext/nbproject/private/
-
+/tikione-jacoco-lib/release/
 
 # Created by http://www.gitignore.io
 
@@ -34,3 +34,6 @@ tikione-jacocoexec-analyzer/nbproject/private/private.xml
 tikione-jacocoverage-plugin/nbproject/private/jonathanlermitage.cert
 tikione-jacocoverage-plugin/nbproject/private/platform-private.properties
 tikione-jacocoverage-plugin/nbproject/private/private.xml
+/nbproject/private/
+/tikione-jacocoexec-analyzer/nbproject/private/
+/tikione-jacocoverage-plugin/nbproject/private/

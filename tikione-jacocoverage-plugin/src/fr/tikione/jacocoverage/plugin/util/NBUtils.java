@@ -12,14 +12,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Matcher;
 import javax.swing.text.StyledDocument;
 import org.netbeans.api.java.classpath.GlobalPathRegistry;
+import org.netbeans.api.java.project.JavaProjectConstants;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
+import org.netbeans.api.project.SourceGroup;
 import org.openide.awt.HtmlBrowser;
 import org.openide.cookies.EditorCookie;
 import org.openide.filesystems.FileObject;
@@ -125,7 +131,7 @@ public class NBUtils {
                                 //  old: File javafile = new File(srcDir, jclass.getPackageName() + jclass.getClassName());
 								//  new: File javafile = new File(fileObject.getPath());
                                 File javafile =  new File(fileObject.getPath());
-                                List<String> javalines = org.apache.commons.io.FileUtils.readLines(javafile);
+                                List<String> javalines = org.apache.commons.io.FileUtils.readLines(javafile, "UTF-8");
                                 int nblines = javalines.size();
                                 for (int lineIdx = 0; lineIdx < nblines; lineIdx++) {
                                     boolean isCovered = coverage.containsKey(lineIdx);
@@ -239,17 +245,35 @@ public class NBUtils {
      * @return a list of Java package names.
      */
     public static List<String> getProjectJavaPackages(Project project, Properties prjProps) {
-        List<String> packages = new ArrayList<>(8);
-        String srcFolderName = Utils.getProperty(prjProps, "src.dir");
-        List<File> packagesAsFolders = Utils.listFolders(
-                new File(NBUtils.getProjectDir(project) + File.separator + srcFolderName + File.separator));
-        int rootDirnameLen = NBUtils.getProjectDir(project).length() + srcFolderName.length() + 2;
-        for (File srcPackage : packagesAsFolders) {
-            packages.add(srcPackage.getAbsolutePath()
-                    .substring(rootDirnameLen)
-                    .replaceAll(Matcher.quoteReplacement(File.separator), "."));
+        SourceGroup[] sGroups = ProjectUtils.getSources(project).getSourceGroups(JavaProjectConstants.SOURCES_TYPE_JAVA);
+        List<FileObject> sourceRoots = new ArrayList<>();
+        for (SourceGroup sg : sGroups) {
+            sourceRoots.add(sg.getRootFolder());
         }
-        return packages;
+        Set<String> packagesList = new LinkedHashSet<>();
+        for (FileObject r : sourceRoots) {
+            LinkedList<FileObject> toScan = new LinkedList<>();
+            toScan.add(r);
+            while (!toScan.isEmpty()) {
+                boolean nonEmpty = false;
+                FileObject folder = toScan.removeFirst();
+                FileObject[] ch = folder.getChildren();
+                String pName = FileUtil.getRelativePath(r, folder).replace("/", "."); // NOI18N
+                for (FileObject f : ch) {
+                    if (f.isFolder()) {
+                        toScan.add(f);
+                    } else if (f.isData() && (f.getExt().equals("java") || f.getExt().equals("groovy"))) { // NOI18N
+                        // this is ugly as more languages can compile to java; if that's an issue, extension list should
+                        // be made configurable.
+                        nonEmpty = true;
+                    }
+                }
+                if (nonEmpty) {
+                    packagesList.add(pName);
+                }
+            }
+        }
+        return new ArrayList<>(packagesList);
     }
 
     /**

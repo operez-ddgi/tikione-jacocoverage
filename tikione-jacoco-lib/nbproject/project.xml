@@ -5,7 +5,16 @@
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>fr.tikione.jacoco.lib</code-name-base>
             <suite-component/>
-            <module-dependencies/>
+            <module-dependencies>
+                <dependency>
+                    <code-name-base>org.netbeans.libs.asm</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>5.18</specification-version>
+                    </run-dependency>
+                </dependency>
+            </module-dependencies>
             <public-packages>
                 <package>com.vladium.emma.rt</package>
                 <package>org.jacoco.agent</package>
@@ -52,12 +61,20 @@
                 <package>org.jacoco.report.xml</package>
             </public-packages>
             <class-path-extension>
-                <runtime-relative-path>ext/jacocoant.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jacocoant.jar</binary-origin>
+                <runtime-relative-path>ext/org.jacoco.ant.jar</runtime-relative-path>
+                <binary-origin>external/org.jacoco.ant-0.8.7.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jacocoagent.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/jacocoagent.jar</binary-origin>
+                <binary-origin>modules/ext/jacocoagent.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/org.jacoco.core.jar</runtime-relative-path>
+                <binary-origin>external/org.jacoco.core-0.8.7.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/org.jacoco.report.jar</runtime-relative-path>
+                <binary-origin>external/org.jacoco.report-0.8.7.jar</binary-origin>
             </class-path-extension>
         </data>
     </configuration>

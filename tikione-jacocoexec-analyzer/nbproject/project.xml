@@ -12,16 +12,7 @@
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
-                        <specification-version>0.6.2</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>fr.tikione.jacocoverage.ext</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>1</release-version>
-                        <specification-version>1.0.0.20130528.1200</specification-version>
+                        <specification-version>0.8.7</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>

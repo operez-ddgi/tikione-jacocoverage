@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import org.netbeans.api.progress.ProgressHandle;
-import org.netbeans.api.progress.ProgressHandleFactory;
 import org.netbeans.api.project.Project;
 import org.openide.util.Exceptions;
 import org.openide.util.RequestProcessor;
@@ -61,7 +60,7 @@ public abstract class ActionRemoveCoverageData
         new RequestProcessor("JaCoCoverage Cleanup Task", 3, true).post(new Runnable() {
             @Override
             public void run() {
-                ProgressHandle progr = ProgressHandleFactory.createHandle("JaCoCoverage Cleanup Task");
+                ProgressHandle progr = ProgressHandle.createHandle("JaCoCoverage Cleanup Task");
                 if (project == null) {
                     LOGGER.warning("Cannot find project to clear coverage data");
                 } else {
